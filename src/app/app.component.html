@@ -1,22 +1,12 @@
 
 <main class="main">
-  <div>
+  <!-- TODO: Make nav a component -->
+  <nav>
     <ul>
-      <li class="text" *ngFor="let user of users">
-        {{user.first}} {{user.middle ?? ''}} {{user.last}} {{user.born}}
-      </li>
+      <li><a [routerLink]="['/users']">Users</a></li>
+      <li><a [routerLink]="['/products']">Products</a></li>
     </ul>
-  </div>
+  </nav>
 
-  <h1>From observable</h1>
-  <div>
-    <ul>
-      <li class="text" *ngFor="let item of users$ | async">
-        {{item.first}} {{item.middle ?? ''}} {{item.last}} {{item.born}}
-      </li>
-    </ul>
-  </div>
-
-  <button (click)="addDocument()">Add document</button>
-  <button (click)="addDocument2()">Add document 2</button>
+  <router-outlet></router-outlet>
 </main>

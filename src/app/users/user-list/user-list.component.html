@@ -1,0 +1,13 @@
+<h1>Users</h1>
+
+<div>
+  <button (click)="displayCreateForm()">Create</button>
+
+  <div *ngIf="isLoading">Loading...</div>
+
+  <ul *ngIf="!isLoading">
+    <li class="text" *ngFor="let item of users">
+      {{item.first}} {{item.middle ?? ''}} {{item.last}} {{item.born}}
+    </li>
+  </ul>
+</div>
