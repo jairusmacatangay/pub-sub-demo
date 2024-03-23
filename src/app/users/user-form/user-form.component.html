@@ -1,7 +1,4 @@
-<h1>
-  <a [routerLink]="['/users']" class="breadcrumb-item">Users</a> /
-  <span>{{ action }}</span>
-</h1>
+<app-breadcrumbs parentPage="Users" [currentPage]="action" />
 
 <!-- TODO: Turn into a component -->
 <div class="alert alert--danger" [hidden]="!isError">
@@ -73,12 +70,18 @@
     </div>
 
     <div class="button-group">
-      <button type="button" (click)="displayUserList()">Back</button>
+      <button
+        type="button"
+        (click)="displayUserList()"
+        [disabled]="isSubmitting"
+      >
+        Back
+      </button>
       <button
         type="submit"
-        [disabled]="!upsertUserForm.form.valid || isLoading"
+        [disabled]="!upsertUserForm.form.valid || isSubmitting"
       >
-        {{ !isLoading ? "Submit" : "Submitting..." }}
+        {{ !isSubmitting ? "Submit" : "Submitting..." }}
       </button>
     </div>
   </form>

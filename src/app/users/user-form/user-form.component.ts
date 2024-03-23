@@ -4,13 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../_shared/services/product.service';
 import { UpsertUser } from '../../_shared/requests/upsert-user.request';
 import { NgIf } from '@angular/common';
+import { BreadcrumbsComponent } from "../../_shared/components/breadcrumbs/breadcrumbs.component";
 
 @Component({
-  selector: 'app-create-user',
-  standalone: true,
-  imports: [RouterLink, FormsModule, NgIf],
-  templateUrl: './user-form.component.html',
-  styleUrl: './user-form.component.scss',
+    selector: 'app-create-user',
+    standalone: true,
+    templateUrl: './user-form.component.html',
+    styleUrl: './user-form.component.scss',
+    imports: [RouterLink, FormsModule, NgIf, BreadcrumbsComponent]
 })
 export class UserFormComponent implements OnInit {
   id: string | undefined;

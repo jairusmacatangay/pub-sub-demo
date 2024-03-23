@@ -8,6 +8,7 @@ import {
   doc,
   getDoc,
   updateDoc,
+  deleteDoc,
 } from '@angular/fire/firestore';
 import { Collection } from '../enums/collection';
 import { Observable } from 'rxjs';
@@ -44,6 +45,15 @@ export class ProductService {
       });
     } catch (e) {
       console.error('Error updating document: ', e);
+      throw e;
+    }
+  }
+
+  async delete(id: string): Promise<void> {
+    try {
+      await deleteDoc(doc(this.firestore, Collection.Users, id));
+    } catch (e) {
+      console.error('Error deleting document: ', e);
       throw e;
     }
   }

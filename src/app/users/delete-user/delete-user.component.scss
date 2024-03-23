@@ -1,0 +1,12 @@
+.user-info {
+  margin-bottom: 1rem;
+
+  &__label {
+    font-weight: bold;
+  }
+}
+
+.button-group {
+  display: flex;
+  gap: 0.5rem;
+}
