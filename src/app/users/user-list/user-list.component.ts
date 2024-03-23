@@ -34,4 +34,8 @@ export class UserListComponent implements OnInit {
   displayEditForm(id: string): void {
     this.router.navigate(['/users/edit', id]);
   }
+
+  displayDeleteConfirmation(id: string): void {
+    this.router.navigate(['/users/delete', id]);
+  }
 }
