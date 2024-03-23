@@ -30,4 +30,8 @@ export class UserListComponent implements OnInit {
   displayCreateForm(): void {
     this.router.navigateByUrl('/users/create');
   }
+
+  displayEditForm(id: string): void {
+    this.router.navigate(['/users/edit', id]);
+  }
 }

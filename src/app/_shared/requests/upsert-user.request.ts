@@ -1,5 +1,4 @@
-export interface User {
-  id: string;
+export interface UpsertUser {
   first: string;
   middle?: string;
   last: string;

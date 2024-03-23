@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ProductService } from '../_shared/services/product.service';
-import { User } from '../_shared/models/user.model';
 import { Router, RouterOutlet } from '@angular/router';
+import { UpsertUser } from '../_shared/requests/upsert-user.request';
 
 @Component({
   selector: 'app-users',
@@ -21,7 +21,7 @@ export class UsersComponent {
   }
 
   async addDocument(): Promise<void> {
-    const user: User = {
+    const user: UpsertUser = {
       first: 'Isaac',
       last: 'Newton',
       born: 1643,
@@ -31,7 +31,7 @@ export class UsersComponent {
   }
 
   async addDocument2(): Promise<void> {
-    const user: User = {
+    const user: UpsertUser = {
       first: 'Stephen',
       last: 'Hawking',
       born: 1942,

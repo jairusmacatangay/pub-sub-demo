@@ -1,0 +1,85 @@
+<h1>
+  <a [routerLink]="['/users']" class="breadcrumb-item">Users</a> /
+  <span>{{ action }}</span>
+</h1>
+
+<!-- TODO: Turn into a component -->
+<div class="alert alert--danger" [hidden]="!isError">
+  <div class="alert__header">
+    <div>Error</div>
+    <button (click)="closeAlert()">&#10060;</button>
+  </div>
+  <div class="alert__body">{{ errorMessage }}</div>
+</div>
+
+<div *ngIf="isLoading">Loading...</div>
+
+<div *ngIf="!isLoading">
+  <form #upsertUserForm="ngForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label class="form-label">First name: </label>
+      <input
+        type="text"
+        id="first"
+        name="first"
+        [(ngModel)]="model.first"
+        #first="ngModel"
+        required
+      />
+      <div [hidden]="first.valid || first.pristine" class="text-danger">
+        First name is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Middle name: </label>
+      <input
+        type="text"
+        id="middle"
+        name="middle"
+        [(ngModel)]="model.middle"
+        #middle="ngModel"
+      />
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Last name: </label>
+      <input
+        type="text"
+        id="last"
+        name="last"
+        [(ngModel)]="model.last"
+        #last="ngModel"
+        required
+      />
+      <div [hidden]="last.valid || last.pristine" class="text-danger">
+        Last name is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Birth year: </label>
+      <input
+        type="number"
+        id="born"
+        name="born"
+        [(ngModel)]="model.born"
+        #born="ngModel"
+        required=""
+      />
+      <div [hidden]="born.valid || born.pristine" class="text-danger">
+        Birth year is required
+      </div>
+    </div>
+
+    <div class="button-group">
+      <button type="button" (click)="displayUserList()">Back</button>
+      <button
+        type="submit"
+        [disabled]="!upsertUserForm.form.valid || isLoading"
+      >
+        {{ !isLoading ? "Submit" : "Submitting..." }}
+      </button>
+    </div>
+  </form>
+</div>
