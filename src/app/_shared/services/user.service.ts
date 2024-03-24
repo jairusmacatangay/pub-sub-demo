@@ -15,6 +15,7 @@ import { Observable } from 'rxjs';
 import { User } from '../models/user.model';
 import { UpsertUser } from '../requests/upsert-user.request';
 import { IUserService } from '../interfaces/user-service.interface';
+import { userConverter } from '../helpers/converters/user-converter';
 
 @Injectable({
   providedIn: 'root',
@@ -59,9 +60,9 @@ export class UserService implements IUserService {
   }
 
   async getUser(id: string): Promise<User | undefined> {
-    let user: User | undefined;
-
-    const docRef = doc(this.firestore, Collection.Users, id);
+    const docRef = doc(this.firestore, Collection.Users, id).withConverter(
+      userConverter
+    );
     const docSnap = await getDoc(docRef);
 
     if (!docSnap.exists()) {
@@ -69,35 +70,20 @@ export class UserService implements IUserService {
       return undefined;
     }
 
-    // TODO: create a class and have a converter method
-    user = {
-      id: docSnap.id,
-      first: docSnap.get('first'),
-      middle: docSnap.get('middle'),
-      last: docSnap.get('last'),
-      born: docSnap.get('born'),
-    };
-
-    return user;
+    return docSnap.data();
   }
 
   async getUsers(): Promise<User[]> {
     let users: User[] = [];
 
     try {
-      const querySnapshot = await getDocs(
-        collection(this.firestore, Collection.Users)
+      const docRef = collection(this.firestore, Collection.Users).withConverter(
+        userConverter
       );
 
-      querySnapshot.docs.map((doc) => {
-        users.push({
-          id: doc.id,
-          first: doc.get('first'),
-          middle: doc.get('middle'),
-          last: doc.get('last'),
-          born: doc.get('born'),
-        });
-      });
+      const querySnapshot = await getDocs(docRef);
+
+      querySnapshot.docs.map((doc) => users.push(doc.data()));
 
       return users;
     } catch (e) {
