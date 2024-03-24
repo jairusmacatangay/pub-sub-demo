@@ -19,6 +19,8 @@ export class DeleteUserComponent implements OnInit {
 
   isLoading: boolean = false;
 
+  isFound: boolean = true;
+
   isSubmitting: boolean = false;
   isError: boolean = false;
   errorMessage: string = '';
@@ -47,7 +49,6 @@ export class DeleteUserComponent implements OnInit {
 
     const user = await this.userService.getUser(this.id!);
 
-    // TODO: handle undefined user
     if (user) {
       this.model = {
         id: this.id!,
@@ -57,8 +58,12 @@ export class DeleteUserComponent implements OnInit {
         born: user?.born,
       };
 
-      this.isLoading = false;
+      this.isFound = true;
+    } else {
+      this.isFound = false;
     }
+
+    this.isLoading = false;
   }
 
   displayUserList(): void {
