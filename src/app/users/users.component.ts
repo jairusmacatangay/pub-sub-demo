@@ -14,6 +14,7 @@ import { UpsertUser } from '../_shared/requests/upsert-user.request';
   providers: [ProductService],
 })
 export class UsersComponent {
+  // TODO: Clean up
   users$: Observable<any[]>;
 
   constructor(private productService: ProductService, private router: Router) {
