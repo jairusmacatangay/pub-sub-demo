@@ -1,0 +1,26 @@
+.alert {
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  width: 25%;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+
+    button {
+      border-style: none;
+      border-radius: 5px;
+      background-color: transparent;
+      cursor: pointer;
+    }
+  }
+
+  &--danger {
+    border-color: red;
+    border-left: 5px solid red;
+  }
+}

@@ -6,13 +6,14 @@ import { NgIf } from '@angular/common';
 import { BreadcrumbsComponent } from '../../_shared/components/breadcrumbs/breadcrumbs.component';
 import { IUserService } from '../../_shared/interfaces/user-service.interface';
 import { UserService } from '../../_shared/services/user.service';
+import { AlertComponent } from '../../_shared/components/alert/alert.component';
 
 @Component({
   selector: 'app-create-user',
   standalone: true,
   templateUrl: './user-form.component.html',
   styleUrl: './user-form.component.scss',
-  imports: [RouterLink, FormsModule, NgIf, BreadcrumbsComponent],
+  imports: [RouterLink, FormsModule, NgIf, BreadcrumbsComponent, AlertComponent],
   providers: [UserService],
 })
 export class UserFormComponent implements OnInit {
@@ -74,7 +75,7 @@ export class UserFormComponent implements OnInit {
     }
   }
 
-  closeAlert(): void {
+  onCloseAlert(): void {
     this.isError = false;
     this.errorMessage = '';
   }

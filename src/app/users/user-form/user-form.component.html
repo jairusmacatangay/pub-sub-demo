@@ -1,13 +1,10 @@
 <app-breadcrumbs parentPage="Users" [currentPage]="action" />
 
-<!-- TODO: Turn into a component -->
-<div class="alert alert--danger" [hidden]="!isError">
-  <div class="alert__header">
-    <div>Error</div>
-    <button (click)="closeAlert()">&#10060;</button>
-  </div>
-  <div class="alert__body">{{ errorMessage }}</div>
-</div>
+<app-alert
+  [isError]="isError"
+  [errorMessage]="errorMessage"
+  (close)="onCloseAlert()"
+/>
 
 <div *ngIf="isLoading">Loading...</div>
 
