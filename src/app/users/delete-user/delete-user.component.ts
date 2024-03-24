@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { BreadcrumbsComponent } from '../../_shared/components/breadcrumbs/breadcrumbs.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProductService } from '../../_shared/services/product.service';
 import { User } from '../../_shared/models/user.model';
 import { NgIf } from '@angular/common';
+import { IUserService } from '../../_shared/interfaces/user-service.interface';
+import { UserService } from '../../_shared/services/user.service';
 
 @Component({
   selector: 'app-delete-user',
@@ -11,6 +12,7 @@ import { NgIf } from '@angular/common';
   templateUrl: './delete-user.component.html',
   styleUrl: './delete-user.component.scss',
   imports: [BreadcrumbsComponent, NgIf],
+  providers: [UserService],
 })
 export class DeleteUserComponent implements OnInit {
   id: string | undefined;
@@ -31,7 +33,7 @@ export class DeleteUserComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private productService: ProductService,
+    @Inject(UserService) private userService: IUserService,
     private route: ActivatedRoute
   ) {}
 
@@ -43,7 +45,7 @@ export class DeleteUserComponent implements OnInit {
   async populateUser(): Promise<void> {
     this.isLoading = true;
 
-    const user = await this.productService.getProduct(this.id!);
+    const user = await this.userService.getUser(this.id!);
 
     // TODO: handle undefined user
     if (user) {
@@ -67,7 +69,7 @@ export class DeleteUserComponent implements OnInit {
     this.isSubmitting = true;
 
     // TODO: display alert message UI
-    this.productService
+    this.userService
       .delete(this.id!)
       .then(() => this.displayUserList())
       .catch(() => alert('Failed to delete user.'))

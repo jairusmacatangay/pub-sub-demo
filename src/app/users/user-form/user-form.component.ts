@@ -1,17 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { ProductService } from '../../_shared/services/product.service';
 import { UpsertUser } from '../../_shared/requests/upsert-user.request';
 import { NgIf } from '@angular/common';
-import { BreadcrumbsComponent } from "../../_shared/components/breadcrumbs/breadcrumbs.component";
+import { BreadcrumbsComponent } from '../../_shared/components/breadcrumbs/breadcrumbs.component';
+import { IUserService } from '../../_shared/interfaces/user-service.interface';
+import { UserService } from '../../_shared/services/user.service';
 
 @Component({
-    selector: 'app-create-user',
-    standalone: true,
-    templateUrl: './user-form.component.html',
-    styleUrl: './user-form.component.scss',
-    imports: [RouterLink, FormsModule, NgIf, BreadcrumbsComponent]
+  selector: 'app-create-user',
+  standalone: true,
+  templateUrl: './user-form.component.html',
+  styleUrl: './user-form.component.scss',
+  imports: [RouterLink, FormsModule, NgIf, BreadcrumbsComponent],
+  providers: [UserService],
 })
 export class UserFormComponent implements OnInit {
   id: string | undefined;
@@ -34,7 +36,7 @@ export class UserFormComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private productService: ProductService,
+    @Inject(UserService) private userService: IUserService,
     private route: ActivatedRoute
   ) {}
 
@@ -51,7 +53,8 @@ export class UserFormComponent implements OnInit {
     if (this.isEdit && this.id) {
       this.isLoading = true;
 
-      const user = await this.productService.getProduct(this.id);
+      // TODO: handle not found documents
+      const user = await this.userService.getUser(this.id);
 
       this.model = {
         first: user?.first!,
@@ -77,8 +80,8 @@ export class UserFormComponent implements OnInit {
     this.isSubmitting = true;
 
     const operation = this.isEdit
-      ? this.productService.update(this.id!, this.model)
-      : this.productService.create(this.model);
+      ? this.userService.update(this.id!, this.model)
+      : this.userService.create(this.model);
 
     operation
       .then(() => this.displayUserList())

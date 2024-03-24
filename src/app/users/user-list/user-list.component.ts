@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { ProductService } from '../../_shared/services/product.service';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { User } from '../../_shared/models/user.model';
+import { UserService } from '../../_shared/services/user.service';
+import { IUserService } from '../../_shared/interfaces/user-service.interface';
 
 @Component({
   selector: 'app-user-list',
   standalone: true,
   imports: [NgFor, NgIf],
+  providers: [UserService],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss',
 })
@@ -16,12 +17,15 @@ export class UserListComponent implements OnInit {
   users: User[] = [];
   isLoading: boolean = false;
 
-  constructor(private productService: ProductService, private router: Router) {}
+  constructor(
+    @Inject(UserService) private userService: IUserService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
 
-    this.productService.getProducts().then((res: User[]) => {
+    this.userService.getUsers().then((res: User[]) => {
       this.isLoading = false;
       this.users = res;
     });
