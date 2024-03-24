@@ -21,6 +21,8 @@ export class UserFormComponent implements OnInit {
   isEdit: boolean = false;
   action: string = 'Create';
 
+  isFound: boolean = true;
+
   isLoading: boolean = false;
 
   isSubmitting: boolean = false;
@@ -50,18 +52,23 @@ export class UserFormComponent implements OnInit {
   }
 
   async populateForm() {
-    if (this.isEdit && this.id) {
+    if (this.isEdit) {
       this.isLoading = true;
 
-      // TODO: handle not found documents
-      const user = await this.userService.getUser(this.id);
+      const user = await this.userService.getUser(this.id!);
 
-      this.model = {
-        first: user?.first!,
-        middle: user?.middle,
-        last: user?.last!,
-        born: user?.born,
-      };
+      if (user) {
+        this.model = {
+          first: user?.first!,
+          middle: user?.middle,
+          last: user?.last!,
+          born: user?.born,
+        };
+        
+        this.isFound = true;
+      } else {
+        this.isFound = false;
+      }
 
       this.isLoading = false;
     }
