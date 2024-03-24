@@ -1,5 +1,11 @@
 <app-breadcrumbs parentPage="Users" currentPage="Delete" />
 
+<app-alert
+  [isError]="isError"
+  [errorMessage]="errorMessage"
+  (close)="onCloseAlert()"
+/>
+
 <div *ngIf="isLoading">Loading...</div>
 
 <div *ngIf="!isLoading">

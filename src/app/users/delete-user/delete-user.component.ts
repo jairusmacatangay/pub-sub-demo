@@ -5,13 +5,14 @@ import { User } from '../../_shared/models/user.model';
 import { NgIf } from '@angular/common';
 import { IUserService } from '../../_shared/interfaces/user-service.interface';
 import { UserService } from '../../_shared/services/user.service';
+import { AlertComponent } from '../../_shared/components/alert/alert.component';
 
 @Component({
   selector: 'app-delete-user',
   standalone: true,
   templateUrl: './delete-user.component.html',
   styleUrl: './delete-user.component.scss',
-  imports: [BreadcrumbsComponent, NgIf],
+  imports: [BreadcrumbsComponent, NgIf, AlertComponent],
   providers: [UserService],
 })
 export class DeleteUserComponent implements OnInit {
@@ -66,6 +67,11 @@ export class DeleteUserComponent implements OnInit {
     this.isLoading = false;
   }
 
+  onCloseAlert(): void {
+    this.isError = false;
+    this.errorMessage = '';
+  }
+
   displayUserList(): void {
     this.router.navigateByUrl('users');
   }
@@ -73,11 +79,14 @@ export class DeleteUserComponent implements OnInit {
   handleDelete(): void {
     this.isSubmitting = true;
 
-    // TODO: display alert message UI
     this.userService
       .delete(this.id!)
       .then(() => this.displayUserList())
-      .catch(() => alert('Failed to delete user.'))
+      .catch(() => {
+        this.isError = true;
+        this.errorMessage =
+          'Oops! Something went wrong while deleting the user. Please try again. If error persists, please contact support.';
+      })
       .finally(() => (this.isSubmitting = false));
   }
 }
